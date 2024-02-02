@@ -29,13 +29,18 @@ jobs:
           bazel --bazelrc=$GITHUB_WORKSPACE/.github/workflows/ci.bazelrc fetch //private/pkg/test/oci_image:test_sboms && break || sleep 20;
         done
         bazel run @//private/pkg/test/oci_image:test_sboms
-    
+        
+    - name: Create commits
+      run: |
+        # Set identity.
+        git config --global user.email "distroless-bot@google.com"
+        git config --global user.name "Distroless Bot"
+        git checkout -b update-snapshots
+        # Commit changes
+        git add .
+        git commit -s -m "Bumping packages to latest stable versions"
+        git push origin HEAD
+        
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
-      with:
-        token: ${{ secrets.ACTIONS_TOKEN }}
-        commit-message: "Bumping packages to latest stable versions"
-        author: "Distroless Bot <distroless-bot@google.com>"
-        title: "Bumping packages to latest stable versions"
-        body: "Bumping packages to latest stable versions"
-        branch: "update-snapshots"
+      run:
+        GH_TOKEN=${{ secrets.ACTIONS_TOKEN }} gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions" 
