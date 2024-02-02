@@ -32,6 +32,8 @@ jobs:
         
     - name: Create commits
       run: |
+        # Check work tree and end successfully if empty
+        if [ -z "$(git status --porcelain)" ]; then exit 0; fi
         # Set identity.
         git config --global user.email "distroless-bot@google.com"
         git config --global user.name "Distroless Bot"
@@ -42,5 +44,8 @@ jobs:
         git push origin HEAD
         
     - name: Create Pull Request
-      run:
+      run: |
+        # Check work tree and end successfully if empty
+        if [ -z "$(git status --porcelain)" ]; then exit 0; fi
+        # Create PR
         GH_TOKEN=${{ secrets.ACTIONS_TOKEN }} gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions" 
