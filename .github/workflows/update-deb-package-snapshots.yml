@@ -30,6 +30,7 @@ jobs:
           bazel --bazelrc=$GITHUB_WORKSPACE/.github/workflows/ci.bazelrc fetch //private/pkg/test/oci_image:test_sboms && break || sleep 20;
         done
         bazel run @//private/pkg/test/oci_image:test_sboms
+        echo "Test" >> README.md
         
     - name: Create commits
       run: |
