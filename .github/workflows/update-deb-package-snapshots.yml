@@ -34,7 +34,6 @@ jobs:
     - name: Create commits
       run: |
         # Check work tree and end successfully if empty
-        echo "Test" >> README.md
         if [ -z "$(git status --porcelain)" ]; then
           echo "Nothing to commit";
           exit 0;
