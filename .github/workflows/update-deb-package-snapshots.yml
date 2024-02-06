@@ -4,10 +4,10 @@ on:
   schedule:
     - cron:  '30 20 * * *'
   workflow_dispatch:
-  
+
 permissions:
   contents: read
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,14 +30,14 @@ jobs:
     #       bazel --bazelrc=$GITHUB_WORKSPACE/.github/workflows/ci.bazelrc fetch //private/pkg/test/oci_image:test_sboms && break || sleep 20;
     #     done
     #     bazel run @//private/pkg/test/oci_image:test_sboms
-        
+
     - name: Create commits
       run: |
         # Check work tree and end successfully if empty
         echo "Test" >> README.md
         if [ -z "$(git status --porcelain)" ]; then
           echo "Nothing to commit";
-          exit 0; 
+          exit 0;
         fi
         # Set identity.
         git config --global user.email "distroless-bot@google.com"
@@ -47,13 +47,13 @@ jobs:
         git add .
         git commit -s -m "Bumping packages to latest stable versions"
         git push origin HEAD
-        
+
     - name: Create Pull Request
       run: |
         # Check work tree and end successfully if empty
-        if [ -z "$(git status --porcelain)" ]; then
+        if [ -z "$(git diff origin/main)" ]; then
           echo "Nothing to commit";
-          exit 0; 
+          exit 0;
         fi
         # Create PR
-        GH_TOKEN=${{ secrets.ACTIONS_TOKEN }} gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions" 
+        GH_TOKEN=${{ secrets.ACTIONS_TOKEN }} gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions"
