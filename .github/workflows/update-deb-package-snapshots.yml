@@ -33,7 +33,8 @@ jobs:
           git checkout -b update-snapshots
         fi
 
-    # - name: Run update script
+    - name: Run update script
+      run: echo "Test" >> README.md
     #   run: ./updateWorkspaceSnapshots.sh
 
     # - name: Run update sboms script
