@@ -63,7 +63,7 @@ jobs:
     - name: Create Pull Request
       run: |
         # Check for PR existance
-        gh pr view 2>/dev/null
+        GH_TOKEN=${{ secrets.ACTIONS_TOKEN }} gh pr view 2>/dev/null
         if [ $? -eq 0 ]; then 
           echo "PR already exists"; 
           exit 0;
