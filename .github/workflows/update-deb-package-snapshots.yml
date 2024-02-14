@@ -34,7 +34,7 @@ jobs:
         fi
 
     - name: Run update script
-      run: echo "Test" >> README.md
+      run: echo "Test updated" >> README.md
     #   run: ./updateWorkspaceSnapshots.sh
 
     # - name: Run update sboms script
