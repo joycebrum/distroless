@@ -72,9 +72,7 @@ jobs:
         fi
 
         # Create PR
-        echo "Creating PR"
-        OUTPUT=$(gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions" 2>&1)
-        echo $OUTPUT
+        OUTPUT=$(gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions" 2>&1) 2>/dev/null
         EXIT=$?
         if [[ "${OUTPUT}" =~ "already exists" ]]; then
           echo "PR already exists and it was updated. Ending successfully";
