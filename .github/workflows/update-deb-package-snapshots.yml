@@ -71,13 +71,12 @@ jobs:
           exit 0;
         fi
 
-        # Check for PR existance
-        if gh pr view; then
-          echo "PR already exists";
+        # Create PR
+        OUTPUT=$(gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions" 2>&1)
+        EXIT=$?
+        if [[ "${OUTPUT}" =~ "already exists" ]]; then
+          echo "PR already exists and it was updated. Ending successfully";
           exit 0;
         else
-          echo "No PR found"
-        fi
-
-        # Create PR
-        gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions"
+          echo $OUTPUT;
+          exit $EXIT;
