@@ -61,23 +61,22 @@ jobs:
         git push origin HEAD
 
     - name: Create Pull Request
+      env:
+        GH_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
       run: |
-        # Check for PR existance
-        echo "Starting running the gh pr view"
-        GH_TOKEN=${{ secrets.ACTIONS_TOKEN }} gh pr view 2>/dev/null
-        if [ $? -eq 0 ]; then
-          echo "PR already exists";
-          exit 0;
-        fi
-
-        echo "After if"
-
         # Check work tree and end successfully if empty
         if [ -z "$(git diff origin/main)" ]; then
           echo "No diff to create PR";
           exit 0;
         fi
 
+        # Check for PR existance
+        if gh pr view; then
+          echo "PR already exists";
+          exit 0;
+        else
+          echo "No PR found"
+        fi
+
         # Create PR
-        echo "Creating PR"
-        GH_TOKEN=${{ secrets.ACTIONS_TOKEN }} gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions"
+        gh pr create -B main -H update-snapshots -t "Bumping packages to latest stable versions" -b "Bumping packages to latest stable versions"
