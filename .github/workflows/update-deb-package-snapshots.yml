@@ -59,7 +59,7 @@ jobs:
         # Commit changes
         git add .
         git commit -s -m "Bumping packages to latest stable versions"
-        git push origin HEAD
+        git push --force origin HEAD
 
     - name: Create Pull Request
       env:
