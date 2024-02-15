@@ -23,10 +23,9 @@ jobs:
 
     - name: Checkout to branch
       run: |
-        # Check for update-snapshot existance
-        if [ `git rev-parse --verify update-snapshots` ]; then
+        # Check for update-snapshots existance
+        if git switch update-snapshots 2>/dev/null; then
           echo "Reseting existing branch"
-          git checkout update-snapshots
           git reset --hard origin/main
         else
           echo "Creating new branch"
@@ -34,7 +33,7 @@ jobs:
         fi
 
     - name: Run update script
-      run: echo "Test updated again" >> README.md
+      run: echo "Test updated again 2" >> README.md
     #   run: ./updateWorkspaceSnapshots.sh
 
     # - name: Run update sboms script
