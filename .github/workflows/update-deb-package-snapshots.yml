@@ -21,19 +21,8 @@ jobs:
       with:
         go-version: '1.20'
 
-    - name: Checkout to branch
-      run: |
-        # Check for update-snapshots existance
-        if git switch update-snapshots 2>/dev/null; then
-          echo "Reseting existing branch"
-          git reset --hard origin/main
-        else
-          echo "Creating new branch"
-          git checkout -b update-snapshots
-        fi
-
     - name: Run update script
-      run: echo "Test updated again 2" >> README.md
+      run: echo "Test updated again 3" >> README.md
     #   run: ./updateWorkspaceSnapshots.sh
 
     # - name: Run update sboms script
@@ -50,6 +39,8 @@ jobs:
           echo "Nothing to commit";
           exit 0;
         fi
+
+        git checkout -b update-snapshots
 
         # Set identity.
         git config --global user.email "distroless-bot@google.com"
