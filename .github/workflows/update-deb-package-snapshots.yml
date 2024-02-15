@@ -64,7 +64,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
       run: |
-        # Check work tree and end successfully if empty
+        # Check diff and end successfully if empty
         if [ -z "$(git diff origin/main)" ]; then
           echo "No diff to create PR";
           exit 0;
