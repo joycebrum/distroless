@@ -34,14 +34,15 @@ jobs:
         fi
 
     - name: Run update script
-      run: ./updateWorkspaceSnapshots.sh
+      run: echo "Test updated" >> README.md
+    #   run: ./updateWorkspaceSnapshots.sh
 
-    - name: Run update sboms script
-      run: |
-        for i in $(seq 5); do
-          bazel --bazelrc=$GITHUB_WORKSPACE/.github/workflows/ci.bazelrc fetch //private/pkg/test/oci_image:test_sboms && break || sleep 20;
-        done
-        bazel run @//private/pkg/test/oci_image:test_sboms
+    # - name: Run update sboms script
+    #   run: |
+    #     for i in $(seq 5); do
+    #       bazel --bazelrc=$GITHUB_WORKSPACE/.github/workflows/ci.bazelrc fetch //private/pkg/test/oci_image:test_sboms && break || sleep 20;
+    #     done
+    #     bazel run @//private/pkg/test/oci_image:test_sboms
 
     - name: Create commits
       run: |
